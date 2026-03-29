@@ -58,8 +58,8 @@
         <div class="profile-card relative border border-gray-100 shadow-2xl pb-10">
             
             <div id="hero-bg" class="relative bg-gradient-to-b from-gray-50 to-white pt-10 pb-8 text-center min-h-[400px]">
-                <div id="human-full-pic" class="card-bg-full"></div> <div class="absolute top-5 left-6 z-20">
-                    <div id="photo-display-logo" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-black shadow-lg overflow-hidden border-2 border-white"></div>
+                <div id="human-full-pic" class="card-bg-full"></div> <div id="logo-container" class="absolute top-5 left-6 z-20 hidden">
+                    <div id="photo-display-logo" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-black shadow-lg overflow-hidden border-2 border-white bg-white"></div>
                 </div>
 
                 <div class="absolute top-5 right-6 z-20">
@@ -113,10 +113,11 @@
                 <h2 class="text-2xl font-black tracking-tight">Update Profile</h2>
                 <button onclick="closeModal('edit-modal')" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x"></i></button>
             </div>
+            
             <div id="edit-form-fields" class="space-y-5"></div>
             <div class="mt-10 pt-8 border-t-2 border-dashed border-gray-100">
-                <label class="text-[10px] font-bold uppercase text-red-500 block mb-2 tracking-widest">Setup New Security PIN (4 Digits)</label>
-                <input id="inp-new-pin" type="password" maxlength="4" placeholder="Update PIN" class="w-full p-4 bg-red-50 rounded-2xl border border-red-100 focus:ring-2 focus:ring-red-500 outline-none font-bold text-center text-xl">
+                <label class="text-[10px] font-bold uppercase text-gray-400 block mb-2 tracking-widest">Setup New Security PIN (4 Digits)</label>
+                <input id="inp-new-pin" type="password" maxlength="4" placeholder="Update PIN" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-gray-500 outline-none font-bold text-center text-xl">
             </div>
             <button onclick="saveData()" id="save-btn" class="w-full mt-8 py-5 bg-red-600 text-white rounded-3xl font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all">
                 Save Information
@@ -164,34 +165,45 @@
             document.getElementById('info-list').innerHTML = listHtml;
             document.getElementById('feature-label').innerText = isCard ? "Company" : "Blood Group";
             document.getElementById('feature-value').innerText = isCard ? (userData.Company || "Personal") : (userData.Blood_Group || "---");
-            document.getElementById('view-phone').innerText = isCard ? userData.Mobile : userData.Phone1;
-            document.getElementById('view-call').href = `tel:${isCard ? userData.Mobile : userData.Phone1}`;
-            
             if(isCard) {
                 document.getElementById('view-title').innerText = userData.Title || "";
                 if(userData.Title) document.getElementById('view-title').classList.remove('hidden');
-                document.getElementById('phone-label').innerText = "Personal Mobile";
-            } else { document.getElementById('phone-label').innerText = "Emergency Contact"; }
-
-            // NEW: Setup Full Background Photo
-            const photoSrc = isCard ? userData.Logo : userData.Photo;
-            if(photoSrc && photoSrc.length > 10) { 
-                document.getElementById('human-full-pic').style.backgroundImage = `url('${photoSrc}')`;
-            } else {
-                document.getElementById('human-full-pic').classList.add('hidden');
-                document.getElementById('hero-bg').classList.add('bg-gradient-to-r', isCard?'from-blue-600':'from-red-600', isCard?'to-blue-900':'to-red-900');
-                document.getElementById('view-name').classList.remove('text-white'); document.getElementById('view-name').classList.add('text-white');
-                document.getElementById('view-id').classList.remove('text-gray-200'); document.getElementById('view-id').classList.add('text-gray-200');
             }
 
-            // NEW: Setup Company Logo (Top-Left)
-            const logoDiv = document.getElementById('photo-display-logo');
-            if(isCard && userData.Logo && userData.Logo.length > 10) { 
-                logoDiv.innerHTML = `<img src="${userData.Logo}" class="w-full h-full object-cover">`;
-                logoDiv.classList.add('bg-white');
+            // Contact Label
+            document.getElementById('view-phone').innerText = isCard ? userData.Mobile : userData.Phone1;
+            document.getElementById('view-call').href = `tel:${isCard ? userData.Mobile : userData.Phone1}`;
+            document.getElementById('phone-label').innerText = isCard ? "Primary Mobile" : "Emergency Contact";
+
+            // LOGIC Setup Full Background Photo & Company Logo
+            if(isCard) {
+                // For CARD IDs
+                // 1. Full Background (Profile Photo from new column)
+                if(userData.Photo && userData.Photo.length > 10) { 
+                    document.getElementById('human-full-pic').style.backgroundImage = `url('${userData.Photo}')`;
+                } else {
+                    document.getElementById('human-full-pic').classList.add('hidden');
+                    document.getElementById('hero-bg').classList.add('bg-gradient-to-r', 'from-blue-600', 'to-blue-900');
+                }
+                
+                // 2. Company Logo (Top-Left corner)
+                if(userData.Logo && userData.Logo.length > 10) { 
+                    document.getElementById('logo-container').classList.remove('hidden'); // Show Logo corner
+                    document.getElementById('photo-display-logo').innerHTML = `<img src="${userData.Logo}" class="w-full h-full object-cover">`;
+                }
+                
             } else {
-                logoDiv.innerHTML = isCard ? "<i data-lucide='credit-card'></i>" : "<i data-lucide='watch'></i>";
-                logoDiv.classList.add(isCard ? 'bg-blue-600' : 'bg-red-600', 'text-white');
+                // For WATCH IDs
+                // 1. Full Background (Photo column)
+                if(userData.Photo && userData.Photo.length > 10) { 
+                    document.getElementById('human-full-pic').style.backgroundImage = `url('${userData.Photo}')`;
+                } else {
+                    document.getElementById('human-full-pic').classList.add('hidden');
+                    document.getElementById('hero-bg').classList.add('bg-gradient-to-r', 'from-red-600', 'to-red-900');
+                }
+                
+                // 2. Company Logo (WATCH IDs should NOT show the logo corner)
+                document.getElementById('logo-container').classList.add('hidden'); // Hide Logo corner
             }
 
             document.getElementById('main-loader').classList.add('hidden');
@@ -200,20 +212,37 @@
         }
 
         function checkPin() {
-            const input = document.getElementById('pin-input').value;
             const correctPin = userData.Admin_PIN || "1234";
-            if(input == correctPin) {
+            if(document.getElementById('pin-input').value == correctPin) {
                 setupEditForm();
-                document.getElementById('inp-new-pin').value = userData.Admin_PIN || "1234";
+                document.getElementById('inp-new-pin').value = userData.Admin_PIN || ""; // Blank if default 1234
                 closeModal('pin-modal');
                 openModal('edit-modal');
-            } else { alert("Incorrect PIN!"); }
+            } else { alert("Incorrect Security PIN!"); }
             document.getElementById('pin-input').value = "";
         }
 
         function setupEditForm() {
-            const fields = isCard ? [{id: 'name', label: 'Full Name', val: userData.Name},{id: 'title', label: 'Job Title', val: userData.Title},{id: 'company', label: 'Company Name', val: userData.Company},{id: 'phone', label: 'Mobile Number', val: userData.Mobile},{id: 'email', label: 'Email Address', val: userData.Email},{id: 'website', label: 'Website Link', val: userData.Website},{id: 'social', label: 'Social Media Link', val: userData.Social_Links},{id: 'photo', label: 'Logo URL', val: userData.Logo}] 
-                                : [{id: 'name', label: 'Full Name', val: userData.Name},{id: 'blood', label: 'Blood Group', val: userData.Blood_Group},{id: 'phone', label: 'Emergency Contact', val: userData.Phone1},{id: 'address', label: 'Home Address', val: userData.Address},{id: 'medicine', label: 'Medical Instructions', val: userData.Medicine_Details},{id: 'photo', label: 'Photo URL', val: userData.Photo}];
+            // Updated Fields logic to add "Profile Photo" for CARD IDs
+            const fields = isCard ? [
+                {id: 'name', label: 'Full Name', val: userData.Name},
+                {id: 'title', label: 'Job Title', val: userData.Title},
+                {id: 'company', label: 'Company Name', val: userData.Company},
+                {id: 'phone', label: 'Mobile Number', val: userData.Mobile},
+                {id: 'email', label: 'Email Address', val: userData.Email},
+                {id: 'website', label: 'Website Link', val: userData.Website},
+                {id: 'social', label: 'Social Media Link', val: userData.Social_Links},
+                {id: 'logo', label: 'Company Logo URL', val: userData.Logo}, // Original column
+                {id: 'photo', label: 'Profile Photo URL', val: userData.Photo} // New field mapping
+            ] : [
+                {id: 'name', label: 'Full Name', val: userData.Name},
+                {id: 'blood', label: 'Blood Group', val: userData.Blood_Group},
+                {id: 'phone', label: 'Emergency Contact', val: userData.Phone1},
+                {id: 'address', label: 'Home Address', val: userData.Address},
+                {id: 'medicine', label: 'Medical Instructions', val: userData.Medicine_Details},
+                {id: 'photo', label: 'Photo URL', val: userData.Photo}
+            ];
+
             let formHtml = "";
             fields.forEach(f => { formHtml += `<div><label class="text-[10px] font-bold uppercase text-gray-400 block mb-2 tracking-widest">${f.label}</label><input id="inp-${f.id}" value="${f.val || ''}" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-${isCard?'blue':'red'}-500 outline-none font-bold text-sm"></div>`; });
             document.getElementById('edit-form-fields').innerHTML = formHtml;
@@ -226,7 +255,8 @@
             if(isCard) {
                 data.name = document.getElementById('inp-name').value; data.title = document.getElementById('inp-title').value; data.company = document.getElementById('inp-company').value;
                 data.mobile = document.getElementById('inp-phone').value; data.email = document.getElementById('inp-email').value; data.website = document.getElementById('inp-website').value;
-                data.social = document.getElementById('inp-social').value; data.logo = document.getElementById('inp-photo').value;
+                data.social = document.getElementById('inp-social').value; data.logo = document.getElementById('inp-logo').value; // Map to Logo column
+                data.photo = document.getElementById('inp-photo').value; // Map to Photo column
             } else {
                 data.name = document.getElementById('inp-name').value; data.blood = document.getElementById('inp-blood').value; data.phone1 = document.getElementById('inp-phone').value;
                 data.address = document.getElementById('inp-address').value; data.medicine = document.getElementById('inp-medicine').value; data.photo = document.getElementById('inp-photo').value;
