@@ -8,21 +8,21 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fdfdfd; transition: all 0.5s ease; }
-        .profile-gradient { background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%); }
-        .card-theme-bg { background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
+        .profile-card { background: white; border-radius: 2.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05); }
+        .info-tile { background: #f1f5f9; border-radius: 1.25rem; padding: 1rem; display: flex; gap: 0.75rem; align-items: center; }
         .loader-spin { border-top-color: currentColor; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen pb-10">
 
-    <div id="top-bar" class="bg-red-600 text-white py-4 px-6 flex justify-between items-center sticky top-0 z-50 shadow-lg transition-colors duration-500">
+    <div id="top-bar" class="bg-red-600 text-white py-4 px-6 flex justify-between items-center sticky top-0 z-50 shadow-md">
         <div class="flex items-center gap-2">
-            <i data-lucide="shield-check" class="w-5 h-5 animate-pulse"></i>
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
             <span id="brand-name" class="text-[10px] font-black uppercase tracking-widest">Safety Watch Pro</span>
         </div>
-        <button onclick="openModal('pin-modal')" class="p-2 hover:bg-black/10 rounded-full transition-all">
+        <button onclick="openModal('pin-modal')" class="p-2 hover:bg-white/10 rounded-full transition-all">
             <i data-lucide="settings" class="w-5 h-5"></i>
         </button>
     </div>
@@ -32,46 +32,38 @@
     </div>
 
     <div id="profile-container" class="max-w-md mx-auto px-5 pt-8 hidden">
-        <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-gray-200 overflow-hidden border border-gray-50 pb-8">
-            <div id="hero-section" class="profile-gradient pt-12 pb-8 text-center relative">
-                <div id="photo-display" class="w-32 h-32 mx-auto rounded-full bg-red-600 text-white flex items-center justify-center text-4xl font-black shadow-xl mb-6 overflow-hidden border-4 border-white"></div>
-                <h1 id="view-name" class="text-3xl font-extrabold text-gray-900 tracking-tight">---</h1>
-                <p id="view-id" class="text-[10px] text-gray-400 mt-2 font-mono font-bold uppercase tracking-widest"></p>
+        <div class="profile-card overflow-hidden border border-gray-100">
+            
+            <div id="hero-bg" class="bg-gradient-to-b from-red-50 to-white pt-12 pb-6 text-center">
+                <div id="photo-display" class="w-32 h-32 mx-auto rounded-full bg-red-600 text-white flex items-center justify-center text-4xl font-black shadow-xl mb-4 overflow-hidden border-4 border-white"></div>
+                <h1 id="view-name" class="text-2xl font-extrabold text-gray-900 tracking-tight">---</h1>
+                <p id="view-id" class="text-[10px] text-gray-400 font-mono font-bold uppercase tracking-widest"></p>
+                <p id="view-title" class="text-sm font-bold text-blue-600 mt-2 uppercase hidden"></p>
             </div>
 
-            <div class="px-6 -mt-4 mb-6">
-                <div id="blood-card" class="bg-red-600 rounded-3xl p-6 text-white text-center shadow-xl transition-colors duration-500">
-                    <span class="text-[10px] font-bold uppercase opacity-70 tracking-widest block mb-1">Blood Group</span>
-                    <p id="view-blood" class="text-6xl font-black">---</p>
+            <div class="px-6 mb-6">
+                <div id="feature-card" class="bg-red-600 rounded-3xl p-5 text-white text-center shadow-lg">
+                    <span id="feature-label" class="text-[10px] font-bold uppercase opacity-80 tracking-widest block mb-1">Blood Group</span>
+                    <p id="feature-value" class="text-4xl font-black">---</p>
                 </div>
             </div>
 
-            <div class="px-6 space-y-4">
-                <div class="flex gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                    <i data-lucide="map-pin" class="text-gray-400 w-5 h-5 shrink-0"></i>
-                    <div>
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Address</p>
-                        <p id="view-address" class="text-sm font-bold text-gray-800"></p>
-                    </div>
+            <div id="info-list" class="px-6 space-y-3">
                 </div>
-                <div id="view-med-box" class="flex gap-4 p-4 bg-amber-50 rounded-2xl border border-amber-100 hidden">
-                    <i data-lucide="pill" class="text-amber-500 w-5 h-5 shrink-0"></i>
-                    <div>
-                        <p class="text-[10px] font-bold text-amber-600 uppercase tracking-widest">Medical Notes</p>
-                        <p id="view-med" class="text-sm font-bold text-amber-900"></p>
-                    </div>
-                </div>
-                <a id="view-call" href="#" class="flex items-center justify-between bg-green-600 p-5 rounded-[1.8rem] text-white shadow-lg active:scale-95 transition-all">
+
+            <div class="px-6 mt-6">
+                <a id="view-call" href="#" class="flex items-center justify-between bg-green-600 p-5 rounded-2xl text-white shadow-lg active:scale-95 transition-all">
                     <div class="flex items-center gap-4">
-                        <div class="bg-white/20 p-3 rounded-full"><i data-lucide="phone" class="w-6 h-6"></i></div>
+                        <div class="bg-white/20 p-2 rounded-full"><i data-lucide="phone" class="w-5 h-5"></i></div>
                         <div>
-                            <p class="text-[10px] font-bold uppercase opacity-70">Emergency Contact</p>
-                            <p id="view-phone" class="text-xl font-black"></p>
+                            <p class="text-[10px] font-bold uppercase opacity-70">Contact Person</p>
+                            <p id="view-phone" class="text-lg font-black"></p>
                         </div>
                     </div>
-                    <i data-lucide="arrow-right" class="w-6 h-6 opacity-50"></i>
+                    <i data-lucide="external-link" class="w-5 h-5 opacity-50"></i>
                 </a>
             </div>
+
         </div>
     </div>
 
@@ -82,25 +74,7 @@
             <input type="password" id="pin-input" class="w-full text-center text-3xl font-black border-b-4 border-gray-200 focus:border-red-600 focus:outline-none mb-8" maxlength="4" placeholder="••••">
             <div class="flex gap-4">
                 <button onclick="closeModal('pin-modal')" class="flex-1 py-4 text-gray-400 font-bold uppercase text-[10px]">Cancel</button>
-                <button onclick="checkPin()" class="flex-1 py-4 bg-red-600 text-white rounded-2xl font-bold uppercase text-[10px] shadow-lg">Verify</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="edit-modal" class="fixed inset-0 bg-white z-[200] hidden overflow-y-auto p-6">
-        <div class="max-w-md mx-auto pb-10">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-black">Edit Profile</h2>
-                <button onclick="closeModal('edit-modal')" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x"></i></button>
-            </div>
-            <div class="space-y-6">
-                <div><label class="text-[10px] font-bold uppercase text-gray-400 block mb-2">Full Name</label><input id="edit-name" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 font-bold outline-none"></div>
-                <div><label class="text-[10px] font-bold uppercase text-gray-400 block mb-2">Blood Group</label><input id="edit-blood" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 font-bold outline-none"></div>
-                <div><label class="text-[10px] font-bold uppercase text-gray-400 block mb-2">Phone Number</label><input id="edit-phone" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 font-bold outline-none"></div>
-                <div><label class="text-[10px] font-bold uppercase text-gray-400 block mb-2">Address</label><textarea id="edit-address" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 font-bold outline-none" rows="2"></textarea></div>
-                <div><label class="text-[10px] font-bold uppercase text-gray-400 block mb-2">Medical Notes</label><textarea id="edit-med" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 font-bold outline-none" rows="2"></textarea></div>
-                <div><label class="text-[10px] font-bold uppercase text-gray-400 block mb-2">Photo URL</label><input id="edit-photo" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-100 font-bold outline-none"></div>
-                <button onclick="saveData()" id="save-btn" class="w-full py-5 bg-red-600 text-white rounded-[1.8rem] font-black uppercase tracking-widest shadow-xl">Save Changes</button>
+                <button id="verify-btn" onclick="checkPin()" class="flex-1 py-4 bg-red-600 text-white rounded-2xl font-bold uppercase text-[10px]">Verify</button>
             </div>
         </div>
     </div>
@@ -111,94 +85,98 @@
         const PROFILE_ID = urlParams.get('id') || "WATCH-001";
         let userData = {};
 
-        // আইডি অনুযায়ী ডিজাইন পরিবর্তন (Watch vs Card)
-        function applyTheme() {
-            const isCard = PROFILE_ID.toUpperCase().startsWith('CARD');
-            if (isCard) {
-                document.getElementById('top-bar').classList.replace('bg-red-600', 'bg-blue-600');
-                document.getElementById('brand-name').innerText = "Safety Card Pro";
-                document.getElementById('blood-card').classList.replace('bg-red-600', 'bg-blue-600');
-                document.getElementById('photo-display').classList.replace('bg-red-600', 'bg-blue-600');
-                document.getElementById('hero-section').classList.replace('profile-gradient', 'card-theme-bg');
-                document.querySelector('#pin-modal button:last-child').classList.replace('bg-red-600', 'bg-blue-600');
-                document.getElementById('save-btn').classList.replace('bg-red-600', 'bg-blue-600');
-            }
-        }
-
         async function fetchProfile() {
             try {
                 const res = await fetch(`${SCRIPT_URL}?id=${PROFILE_ID}`);
                 const result = await res.json();
                 if (result.success) {
                     userData = result.data;
-                    applyTheme();
-                    renderView();
+                    renderUI();
                 } else {
-                    document.getElementById('main-loader').innerHTML = `<p class="text-red-500 font-bold">ID NOT FOUND</p>`;
+                    document.getElementById('main-loader').innerHTML = `<p class="text-red-500 font-bold">Profile Not Found</p>`;
                 }
             } catch (e) { console.error(e); }
         }
 
-        function renderView() {
+        function createInfoTile(icon, label, value, isLink = false) {
+            if(!value || value === "null" || value === "") return "";
+            return `
+                <div class="info-tile">
+                    <i data-lucide="${icon}" class="w-5 h-5 text-gray-400 shrink-0"></i>
+                    <div class="overflow-hidden">
+                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${label}</p>
+                        ${isLink ? `<a href="${value.startsWith('http') ? value : 'https://'+value}" target="_blank" class="text-sm font-bold text-blue-600 truncate block">${value}</a>` 
+                                : `<p class="text-sm font-bold text-gray-700 break-words">${value}</p>`}
+                    </div>
+                </div>`;
+        }
+
+        function renderUI() {
+            const isCard = PROFILE_ID.toUpperCase().startsWith('CARD');
+            const list = document.getElementById('info-list');
+            let html = "";
+
+            if (isCard) {
+                // Card Theme
+                document.getElementById('top-bar').className = "bg-blue-700 text-white py-4 px-6 flex justify-between items-center sticky top-0 z-50 shadow-md";
+                document.getElementById('brand-name').innerText = "Safety Card Pro";
+                document.getElementById('feature-card').classList.replace('bg-red-600', 'bg-blue-600');
+                document.getElementById('photo-display').classList.replace('bg-red-600', 'bg-blue-600');
+                document.getElementById('verify-btn').classList.replace('bg-red-600', 'bg-blue-600');
+
+                // Card Specific Fields
+                document.getElementById('view-title').innerText = userData.Title || "";
+                document.getElementById('view-title').classList.remove('hidden');
+                document.getElementById('feature-label').innerText = "Company Name";
+                document.getElementById('feature-value').innerText = userData.Company || "Personal";
+                document.getElementById('feature-value').className = "text-2xl font-black";
+
+                html += createInfoTile('mail', 'Email Address', userData.Email);
+                html += createInfoTile('globe', 'Website', userData.Website, true);
+                html += createInfoTile('share-2', 'Social Links', userData.Social_Links, true);
+                
+                document.getElementById('view-phone').innerText = userData.Mobile || "---";
+                document.getElementById('view-call').href = `tel:${userData.Mobile}`;
+                
+            } else {
+                // Watch Specific Fields
+                document.getElementById('feature-label').innerText = "Blood Group";
+                document.getElementById('feature-value').innerText = userData.Blood_Group || "---";
+
+                html += createInfoTile('map-pin', 'Residence Address', userData.Address);
+                html += createInfoTile('pill', 'Medical Instructions', userData.Medicine_Details);
+                
+                document.getElementById('view-phone').innerText = userData.Phone1 || "---";
+                document.getElementById('view-call').href = `tel:${userData.Phone1}`;
+            }
+
+            list.innerHTML = html;
+            document.getElementById('view-name').innerText = userData.Name;
+            document.getElementById('view-id').innerText = userData.ID;
+
+            // Photo/Logo
+            const photoSrc = isCard ? userData.Logo : userData.Photo;
+            const photoDiv = document.getElementById('photo-display');
+            if(photoSrc && photoSrc.length > 10) { photoDiv.innerHTML = `<img src="${photoSrc}" class="w-full h-full object-cover">`; }
+            else { photoDiv.innerText = (userData.Name || "ID").substring(0,2).toUpperCase(); }
+
             document.getElementById('main-loader').classList.add('hidden');
             document.getElementById('profile-container').classList.remove('hidden');
-            document.getElementById('view-name').innerText = userData.Name || "---";
-            document.getElementById('view-id').innerText = userData.ID;
-            document.getElementById('view-blood').innerText = userData.Blood_Group || "---";
-            document.getElementById('view-address').innerText = userData.Address || "Not Provided";
-            document.getElementById('view-phone').innerText = userData.Phone1 || "---";
-            document.getElementById('view-call').href = `tel:${userData.Phone1}`;
-
-            if(userData.Medicine_Details && userData.Medicine_Details !== "null" && userData.Medicine_Details !== "") {
-                document.getElementById('view-med-box').classList.remove('hidden');
-                document.getElementById('view-med').innerText = userData.Medicine_Details;
-            }
-
-            const photo = document.getElementById('photo-display');
-            if(userData.Photo && userData.Photo.length > 10) { 
-                photo.innerHTML = `<img src="${userData.Photo}" class="w-full h-full object-cover">`; 
-            } else { 
-                photo.innerText = (userData.Name || "SW").substring(0,2).toUpperCase(); 
-            }
             lucide.createIcons();
         }
 
-        function openModal(id) { document.getElementById(id).style.display = (id === 'edit-modal' ? 'block' : 'flex'); }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         function checkPin() {
-            if(document.getElementById('pin-input').value === "1234") {
-                document.getElementById('edit-name').value = userData.Name;
-                document.getElementById('edit-blood').value = userData.Blood_Group;
-                document.getElementById('edit-phone').value = userData.Phone1;
-                document.getElementById('edit-address').value = userData.Address;
-                document.getElementById('edit-med').value = userData.Medicine_Details === "null" ? "" : userData.Medicine_Details;
-                document.getElementById('edit-photo').value = userData.Photo === "null" ? "" : userData.Photo;
+            const input = document.getElementById('pin-input').value;
+            const correctPin = userData.Admin_PIN || "1234"; // Uses PIN from Sheet
+            if(input === correctPin.toString()) {
+                const sheetId = PROFILE_ID.startsWith('CARD') ? '517504423' : '0';
+                window.open(`https://docs.google.com/spreadsheets/d/1NhaJ_1EVbOWcsELx8JF85-IMceTKbAMPor39RIRJcww/edit#gid=${sheetId}`, '_blank');
                 closeModal('pin-modal');
-                openModal('edit-modal');
             } else { alert("Wrong PIN!"); }
             document.getElementById('pin-input').value = "";
-        }
-
-        async function saveData() {
-            const btn = document.getElementById('save-btn');
-            btn.innerText = "Saving...";
-            btn.disabled = true;
-
-            const update = {
-                id: PROFILE_ID,
-                name: document.getElementById('edit-name').value,
-                blood: document.getElementById('edit-blood').value,
-                phone1: document.getElementById('edit-phone').value,
-                address: document.getElementById('edit-address').value,
-                medicine: document.getElementById('edit-med').value,
-                photo: document.getElementById('edit-photo').value
-            };
-
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(update) });
-                location.reload();
-            } catch (e) { alert("Save failed!"); btn.innerText = "Save Changes"; btn.disabled = false; }
         }
 
         fetchProfile();
