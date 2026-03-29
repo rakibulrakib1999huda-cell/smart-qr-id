@@ -8,36 +8,44 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fdfdfd; }
         
-        /* Company Logo Background Effect */
-        .bg-logo-watermark {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%; height: 80%;
-            background-size: contain;
-            background-repeat: no-repeat;
+        /* Full Background Image Styles */
+        .card-bg-full {
+            background-size: cover;
             background-position: center;
-            opacity: 0.08; /* আবছা ওয়াটারমার্ক */
-            z-index: 0;
-            pointer-events: none;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
         }
 
-        .profile-card { background: white; border-radius: 2.5rem; position: relative; z-index: 10; overflow: hidden; }
-        .info-tile { background: #f1f5f9; border-radius: 1.25rem; padding: 1rem; display: flex; gap: 0.75rem; align-items: center; }
+        /* Overlay to make text readable */
+        .text-overlay {
+            position: absolute;
+            bottom: 30px; left: 0;
+            width: 100%;
+            padding: 0 30px;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            z-index: 5;
+            text-align: left;
+        }
+
+        .profile-card { background: white; border-radius: 2rem; overflow: hidden; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1); }
+        .info-tile { background: #f7faff; border-radius: 1rem; padding: 1rem; display: flex; gap: 0.75rem; align-items: center; border: 1px solid #f0f3f6; }
         .loader-spin { border-top-color: currentColor; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="min-h-screen pb-10">
 
-    <div id="top-bar" class="bg-red-600 text-white py-4 px-6 flex justify-between items-center sticky top-0 z-50 shadow-md transition-all">
+    <div id="top-bar" class="bg-red-600 text-white py-4 px-6 flex justify-between items-center sticky top-0 z-50 shadow-md">
         <div class="flex items-center gap-2">
             <i data-lucide="shield-check" class="w-5 h-5"></i>
-            <span id="brand-name" class="text-[10px] font-black uppercase tracking-widest">Safety Watch Pro</span>
+            <span id="brand-name" class="text-[10px] font-black uppercase tracking-widest text-white">Safety Watch Pro</span>
         </div>
-        <button onclick="openModal('pin-modal')" class="p-2 hover:bg-black/10 rounded-full">
+        <button onclick="openModal('pin-modal')" class="p-2 hover:bg-black/10 rounded-full transition-all">
             <i data-lucide="settings" class="w-5 h-5"></i>
         </button>
     </div>
@@ -47,32 +55,39 @@
     </div>
 
     <div id="profile-container" class="max-w-md mx-auto px-5 pt-8 hidden">
-        <div class="profile-card border border-gray-100 shadow-2xl">
+        <div class="profile-card relative border border-gray-100 shadow-2xl pb-10">
             
-            <div id="hero-bg" class="relative bg-gradient-to-b from-gray-50 to-white pt-12 pb-8 text-center">
-                <div id="company-bg-logo" class="bg-logo-watermark"></div>
-                <div class="relative z-10">
-                    <div id="photo-display" class="w-32 h-32 mx-auto rounded-full bg-red-600 text-white flex items-center justify-center text-4xl font-black shadow-xl mb-4 overflow-hidden border-4 border-white"></div>
-                    <h1 id="view-name" class="text-2xl font-extrabold text-gray-900 tracking-tight">---</h1>
-                    <p id="view-id" class="text-[10px] text-gray-400 font-mono font-bold uppercase tracking-widest"></p>
-                    <p id="view-title" class="text-sm font-bold text-blue-600 mt-1 uppercase hidden"></p>
+            <div id="hero-bg" class="relative bg-gradient-to-b from-gray-50 to-white pt-10 pb-8 text-center min-h-[400px]">
+                <div id="human-full-pic" class="card-bg-full"></div> <div class="absolute top-5 left-6 z-20">
+                    <div id="photo-display-logo" class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-black shadow-lg overflow-hidden border-2 border-white"></div>
+                </div>
+
+                <div class="absolute top-5 right-6 z-20">
+                    <div id="feature-card" class="bg-red-600 rounded-xl px-3 py-1.5 text-white shadow-xl transition-all">
+                        <span id="feature-label" class="text-[9px] font-bold uppercase opacity-80 block mb-0.5">Watch/Card</span>
+                        <p id="feature-value" class="text-xs font-bold truncate">---</p>
+                    </div>
+                </div>
+
+                <div class="text-overlay">
+                    <h1 id="view-name" class="text-3xl font-extrabold text-white tracking-tight leading-tight">User Name</h1>
+                    <div class="flex items-center gap-3 mt-1.5">
+                        <p id="view-id" class="text-[10px] text-gray-200 font-mono font-bold uppercase tracking-widest">---</p>
+                        <p id="view-title" class="text-xs font-bold text-blue-300 uppercase truncate hidden">CEO</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="px-6 mb-6">
-                <div id="feature-card" class="bg-red-600 rounded-3xl p-5 text-white text-center shadow-lg transition-colors">
-                    <span id="feature-label" class="text-[10px] font-bold uppercase opacity-80 block mb-1">Blood Group</span>
-                    <p id="feature-value" class="text-4xl font-black tracking-tighter">---</p>
-                </div>
-            </div>
+            <div id="info-list" class="px-8 mt-6 space-y-3"></div>
 
-            <div id="info-list" class="px-6 space-y-3"></div>
-
-            <div class="px-6 mt-6 pb-8">
+            <div class="px-8 mt-6">
                 <a id="view-call" href="#" class="flex items-center justify-between bg-green-600 p-5 rounded-2xl text-white shadow-lg active:scale-95 transition-all">
                     <div class="flex items-center gap-4">
                         <div class="bg-white/20 p-2 rounded-full"><i data-lucide="phone" class="w-5 h-5"></i></div>
-                        <div><p class="text-[9px] font-bold uppercase opacity-70">Primary Contact</p><p id="view-phone" class="text-lg font-black"></p></div>
+                        <div>
+                            <p id="phone-label" class="text-[10px] font-bold uppercase opacity-70">Primary Contact</p>
+                            <p id="view-phone" class="text-lg font-black tracking-tight"></p>
+                        </div>
                     </div>
                     <i data-lucide="external-link" class="w-5 h-5 opacity-40"></i>
                 </a>
@@ -83,11 +98,11 @@
     <div id="pin-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-6">
         <div class="bg-white rounded-[2rem] p-8 max-w-xs w-full shadow-2xl text-center">
             <h3 class="text-xl font-black mb-1">Admin Access</h3>
-            <p class="text-gray-400 text-[10px] font-bold uppercase mb-8">Enter PIN to Edit</p>
+            <p class="text-gray-400 text-[10px] font-bold uppercase mb-8">Enter PIN to Modify</p>
             <input type="password" id="pin-input" class="w-full text-center text-3xl font-black border-b-4 border-gray-200 focus:border-red-600 focus:outline-none mb-8" maxlength="4" placeholder="••••">
             <div class="flex gap-4">
                 <button onclick="closeModal('pin-modal')" class="flex-1 py-4 text-gray-400 font-bold uppercase text-[10px]">Cancel</button>
-                <button id="verify-btn" onclick="checkPin()" class="flex-1 py-4 bg-red-600 text-white rounded-2xl font-bold uppercase text-[10px]">Verify</button>
+                <button id="verify-btn" onclick="checkPin()" class="flex-1 py-4 bg-red-600 text-white rounded-2xl font-bold uppercase text-[10px] shadow-lg">Verify</button>
             </div>
         </div>
     </div>
@@ -98,14 +113,11 @@
                 <h2 class="text-2xl font-black tracking-tight">Update Profile</h2>
                 <button onclick="closeModal('edit-modal')" class="p-2 bg-gray-100 rounded-full"><i data-lucide="x"></i></button>
             </div>
-            
             <div id="edit-form-fields" class="space-y-5"></div>
-
             <div class="mt-10 pt-8 border-t-2 border-dashed border-gray-100">
-                <label class="text-[10px] font-black uppercase text-red-500 block mb-2 tracking-widest">Setup New Security PIN (4 Digits)</label>
+                <label class="text-[10px] font-bold uppercase text-red-500 block mb-2 tracking-widest">Setup New Security PIN (4 Digits)</label>
                 <input id="inp-new-pin" type="password" maxlength="4" placeholder="Update PIN" class="w-full p-4 bg-red-50 rounded-2xl border border-red-100 focus:ring-2 focus:ring-red-500 outline-none font-bold text-center text-xl">
             </div>
-
             <button onclick="saveData()" id="save-btn" class="w-full mt-8 py-5 bg-red-600 text-white rounded-3xl font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all">
                 Save Information
             </button>
@@ -123,32 +135,20 @@
             try {
                 const res = await fetch(`${SCRIPT_URL}?id=${PROFILE_ID}`);
                 const result = await res.json();
-                if (result.success) {
-                    userData = result.data;
-                    renderView();
-                } else {
-                    document.getElementById('main-loader').innerHTML = `<p class="text-red-500 font-bold">Profile Not Found</p>`;
-                }
+                if (result.success) { userData = result.data; renderView(); }
+                else { document.getElementById('main-loader').innerHTML = `<p class="text-red-500 font-bold uppercase text-xs tracking-widest">ID Not Found</p>`; }
             } catch (e) { console.error(e); }
         }
 
         function renderView() {
             if (isCard) {
-                // Card Theme
                 document.getElementById('top-bar').classList.replace('bg-red-600', 'bg-blue-700');
                 document.getElementById('brand-name').innerText = "Safety Card Pro";
                 document.getElementById('feature-card').classList.replace('bg-red-600', 'bg-blue-600');
-                document.getElementById('photo-display').classList.replace('bg-red-600', 'bg-blue-600');
                 document.getElementById('verify-btn').classList.replace('bg-red-600', 'bg-blue-600');
                 document.getElementById('save-btn').classList.replace('bg-red-600', 'bg-blue-600');
-                
-                // Background Logo
-                if(userData.Logo) {
-                    document.getElementById('company-bg-logo').style.backgroundImage = `url('${userData.Logo}')`;
-                }
             }
-
-            document.getElementById('view-name').innerText = userData.Name || "User Name";
+            document.getElementById('view-name').innerText = userData.Name;
             document.getElementById('view-id').innerText = userData.ID;
 
             let listHtml = "";
@@ -160,30 +160,39 @@
                 {icon: 'map-pin', label: 'Address', val: userData.Address},
                 {icon: 'pill', label: 'Medicine', val: userData.Medicine_Details}
             ];
-
-            tiles.forEach(t => {
-                if(t.val && t.val !== "null" && t.val !== "") {
-                    listHtml += `<div class="info-tile">
-                        <i data-lucide="${t.icon}" class="w-5 h-5 text-gray-400 shrink-0"></i>
-                        <div class="overflow-hidden">
-                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${t.label}</p>
-                            ${t.link ? `<a href="${t.val}" target="_blank" class="text-sm font-bold text-blue-600 truncate block">${t.val}</a>` 
-                                    : `<p class="text-sm font-bold text-gray-700 break-words">${t.val}</p>`}
-                        </div>
-                    </div>`;
-                }
-            });
-
+            tiles.forEach(t => { if(t.val && t.val !== "null" && t.val !== "") listHtml += `<div class="info-tile"><i data-lucide="${t.icon}" class="w-5 h-5 text-gray-400"></i><div><p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${t.label}</p>${t.link ? `<a href="${t.val}" target="_blank" class="text-sm font-bold text-blue-600 truncate block">${t.val}</a>` : `<p class="text-sm font-bold text-gray-700">${t.val}</p>`}</div></div>`; });
             document.getElementById('info-list').innerHTML = listHtml;
             document.getElementById('feature-label').innerText = isCard ? "Company" : "Blood Group";
             document.getElementById('feature-value').innerText = isCard ? (userData.Company || "Personal") : (userData.Blood_Group || "---");
-            if(isCard) { document.getElementById('view-title').innerText = userData.Title || ""; document.getElementById('view-title').classList.remove('hidden'); }
-            
             document.getElementById('view-phone').innerText = isCard ? userData.Mobile : userData.Phone1;
             document.getElementById('view-call').href = `tel:${isCard ? userData.Mobile : userData.Phone1}`;
+            
+            if(isCard) {
+                document.getElementById('view-title').innerText = userData.Title || "";
+                if(userData.Title) document.getElementById('view-title').classList.remove('hidden');
+                document.getElementById('phone-label').innerText = "Personal Mobile";
+            } else { document.getElementById('phone-label').innerText = "Emergency Contact"; }
 
-            const photo = isCard ? userData.Logo : userData.Photo;
-            document.getElementById('photo-display').innerHTML = photo && photo.length > 10 ? `<img src="${photo}" class="w-full h-full object-cover">` : (userData.Name || "ID").substring(0,2);
+            // NEW: Setup Full Background Photo
+            const photoSrc = isCard ? userData.Logo : userData.Photo;
+            if(photoSrc && photoSrc.length > 10) { 
+                document.getElementById('human-full-pic').style.backgroundImage = `url('${photoSrc}')`;
+            } else {
+                document.getElementById('human-full-pic').classList.add('hidden');
+                document.getElementById('hero-bg').classList.add('bg-gradient-to-r', isCard?'from-blue-600':'from-red-600', isCard?'to-blue-900':'to-red-900');
+                document.getElementById('view-name').classList.remove('text-white'); document.getElementById('view-name').classList.add('text-white');
+                document.getElementById('view-id').classList.remove('text-gray-200'); document.getElementById('view-id').classList.add('text-gray-200');
+            }
+
+            // NEW: Setup Company Logo (Top-Left)
+            const logoDiv = document.getElementById('photo-display-logo');
+            if(isCard && userData.Logo && userData.Logo.length > 10) { 
+                logoDiv.innerHTML = `<img src="${userData.Logo}" class="w-full h-full object-cover">`;
+                logoDiv.classList.add('bg-white');
+            } else {
+                logoDiv.innerHTML = isCard ? "<i data-lucide='credit-card'></i>" : "<i data-lucide='watch'></i>";
+                logoDiv.classList.add(isCard ? 'bg-blue-600' : 'bg-red-600', 'text-white');
+            }
 
             document.getElementById('main-loader').classList.add('hidden');
             document.getElementById('profile-container').classList.remove('hidden');
@@ -191,8 +200,9 @@
         }
 
         function checkPin() {
+            const input = document.getElementById('pin-input').value;
             const correctPin = userData.Admin_PIN || "1234";
-            if(document.getElementById('pin-input').value == correctPin) {
+            if(input == correctPin) {
                 setupEditForm();
                 document.getElementById('inp-new-pin').value = userData.Admin_PIN || "1234";
                 closeModal('pin-modal');
@@ -202,72 +212,29 @@
         }
 
         function setupEditForm() {
-            const fields = isCard ? [
-                {id: 'name', label: 'Full Name', val: userData.Name},
-                {id: 'title', label: 'Job Title', val: userData.Title},
-                {id: 'company', label: 'Company Name', val: userData.Company},
-                {id: 'phone', label: 'Mobile Number', val: userData.Mobile},
-                {id: 'email', label: 'Email Address', val: userData.Email},
-                {id: 'website', label: 'Website Link', val: userData.Website},
-                {id: 'social', label: 'Social Media Link', val: userData.Social_Links},
-                {id: 'photo', label: 'Logo URL', val: userData.Logo}
-            ] : [
-                {id: 'name', label: 'Full Name', val: userData.Name},
-                {id: 'blood', label: 'Blood Group', val: userData.Blood_Group},
-                {id: 'phone', label: 'Emergency Contact', val: userData.Phone1},
-                {id: 'address', label: 'Home Address', val: userData.Address},
-                {id: 'medicine', label: 'Medical Instructions', val: userData.Medicine_Details},
-                {id: 'photo', label: 'Photo URL', val: userData.Photo}
-            ];
-
+            const fields = isCard ? [{id: 'name', label: 'Full Name', val: userData.Name},{id: 'title', label: 'Job Title', val: userData.Title},{id: 'company', label: 'Company Name', val: userData.Company},{id: 'phone', label: 'Mobile Number', val: userData.Mobile},{id: 'email', label: 'Email Address', val: userData.Email},{id: 'website', label: 'Website Link', val: userData.Website},{id: 'social', label: 'Social Media Link', val: userData.Social_Links},{id: 'photo', label: 'Logo URL', val: userData.Logo}] 
+                                : [{id: 'name', label: 'Full Name', val: userData.Name},{id: 'blood', label: 'Blood Group', val: userData.Blood_Group},{id: 'phone', label: 'Emergency Contact', val: userData.Phone1},{id: 'address', label: 'Home Address', val: userData.Address},{id: 'medicine', label: 'Medical Instructions', val: userData.Medicine_Details},{id: 'photo', label: 'Photo URL', val: userData.Photo}];
             let formHtml = "";
-            fields.forEach(f => {
-                formHtml += `<div>
-                    <label class="text-[10px] font-bold uppercase text-gray-400 block mb-2 tracking-widest">${f.label}</label>
-                    <input id="inp-${f.id}" value="${f.val || ''}" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-${isCard?'blue':'red'}-500 outline-none font-bold text-sm">
-                </div>`;
-            });
+            fields.forEach(f => { formHtml += `<div><label class="text-[10px] font-bold uppercase text-gray-400 block mb-2 tracking-widest">${f.label}</label><input id="inp-${f.id}" value="${f.val || ''}" class="w-full p-4 bg-gray-50 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-${isCard?'blue':'red'}-500 outline-none font-bold text-sm"></div>`; });
             document.getElementById('edit-form-fields').innerHTML = formHtml;
         }
 
         async function saveData() {
             const btn = document.getElementById('save-btn');
-            btn.innerText = "Updating..."; btn.disabled = true;
-
-            const data = { 
-                id: PROFILE_ID, 
-                pin: document.getElementById('inp-new-pin').value 
-            };
-
+            btn.innerText = "Saving Data..."; btn.disabled = true;
+            const data = { id: PROFILE_ID, pin: document.getElementById('inp-new-pin').value };
             if(isCard) {
-                data.name = document.getElementById('inp-name').value;
-                data.title = document.getElementById('inp-title').value;
-                data.company = document.getElementById('inp-company').value;
-                data.mobile = document.getElementById('inp-phone').value;
-                data.email = document.getElementById('inp-email').value;
-                data.website = document.getElementById('inp-website').value;
-                data.social = document.getElementById('inp-social').value;
-                data.logo = document.getElementById('inp-photo').value;
+                data.name = document.getElementById('inp-name').value; data.title = document.getElementById('inp-title').value; data.company = document.getElementById('inp-company').value;
+                data.mobile = document.getElementById('inp-phone').value; data.email = document.getElementById('inp-email').value; data.website = document.getElementById('inp-website').value;
+                data.social = document.getElementById('inp-social').value; data.logo = document.getElementById('inp-photo').value;
             } else {
-                data.name = document.getElementById('inp-name').value;
-                data.blood = document.getElementById('inp-blood').value;
-                data.phone1 = document.getElementById('inp-phone').value;
-                data.address = document.getElementById('inp-address').value;
-                data.medicine = document.getElementById('inp-medicine').value;
-                data.photo = document.getElementById('inp-photo').value;
+                data.name = document.getElementById('inp-name').value; data.blood = document.getElementById('inp-blood').value; data.phone1 = document.getElementById('inp-phone').value;
+                data.address = document.getElementById('inp-address').value; data.medicine = document.getElementById('inp-medicine').value; data.photo = document.getElementById('inp-photo').value;
             }
-
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                });
-                alert("Profile and PIN successfully updated!");
-                location.reload();
-            } catch (e) {
-                alert("Failed to save. Check App Script Permissions.");
-                btn.innerText = "Save Information"; btn.disabled = false;
-            }
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
+                alert("Profile Updated Successfully!"); location.reload();
+            } catch (e) { alert("Save failed. Try again."); btn.innerText = "Save Information"; btn.disabled = false; }
         }
 
         function openModal(id) { document.getElementById(id).style.display = (id === 'edit-modal' ? 'block' : 'flex'); }
