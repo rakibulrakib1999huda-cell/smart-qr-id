@@ -9,26 +9,8 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fdfdfd; }
-        
-        .card-bg-full {
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-        }
-
-        .text-overlay {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%;
-            padding: 50px 30px 25px;
-            background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%);
-            z-index: 5;
-        }
-
+        .card-bg-full { background-size: cover; background-position: center; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .text-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px 30px 25px; background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 100%); z-index: 5; }
         .profile-card { background: white; border-radius: 2.5rem; overflow: hidden; box-shadow: 0 20px 50px -12px rgba(0,0,0,0.15); }
         .info-tile { background: #f8fbff; border-radius: 1.25rem; padding: 1.1rem; display: flex; gap: 0.85rem; align-items: center; border: 1px solid #f0f4f8; }
         .loader-spin { border-top-color: currentColor; animation: spin 1s linear infinite; }
@@ -37,14 +19,12 @@
 </head>
 <body class="min-h-screen pb-12">
 
-    <div id="top-bar" class="bg-red-600 text-white py-4 px-6 flex justify-between items-center sticky top-0 z-50 shadow-lg">
+    <div id="top-bar" class="bg-red-600 text-white py-4 px-6 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-2">
             <i data-lucide="shield-check" class="w-5 h-5"></i>
-            <span id="brand-name" class="text-[11px] font-black uppercase tracking-[0.15em]">Safety Watch Pro</span>
+            <span id="brand-name" class="text-[11px] font-black uppercase tracking-widest">Safety Watch Pro</span>
         </div>
-        <button onclick="openModal('pin-modal')" class="p-2.5 bg-white/10 hover:bg-white/20 rounded-full transition-all">
-            <i data-lucide="settings" class="w-5 h-5"></i>
-        </button>
+        <button onclick="openModal('pin-modal')" class="p-2.5 bg-white/10 rounded-full"><i data-lucide="settings" class="w-5 h-5"></i></button>
     </div>
 
     <div id="main-loader" class="flex flex-col items-center justify-center h-[80vh]">
@@ -53,26 +33,22 @@
 
     <div id="profile-container" class="max-w-md mx-auto px-5 pt-8 hidden">
         <div class="profile-card relative border border-gray-50 pb-10">
-            
             <div id="hero-bg" class="relative bg-slate-100 min-h-[460px]">
                 <div id="human-full-pic" class="card-bg-full"></div>
-                
                 <div id="logo-container" class="absolute top-6 left-6 z-20 hidden">
                     <div id="photo-display-logo" class="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl overflow-hidden border-4 border-white bg-white"></div>
                 </div>
-
                 <div class="absolute top-6 right-6 z-20">
-                    <div id="feature-card" class="bg-red-600 rounded-2xl px-4 py-2 text-white shadow-xl backdrop-blur-sm">
-                        <span id="feature-label" class="text-[9px] font-bold uppercase opacity-80 block tracking-wider">Status</span>
+                    <div id="feature-card" class="bg-red-600 rounded-2xl px-4 py-2 text-white shadow-xl">
+                        <span id="feature-label" class="text-[9px] font-bold uppercase block">Status</span>
                         <p id="feature-value" class="text-xs font-extrabold truncate">---</p>
                     </div>
                 </div>
-
                 <div class="text-overlay">
-                    <h1 id="view-name" class="text-3xl font-extrabold text-white tracking-tight leading-tight">---</h1>
+                    <h1 id="view-name" class="text-3xl font-extrabold text-white leading-tight">---</h1>
                     <div class="flex items-center gap-3 mt-2">
-                        <p id="view-id" class="text-[10px] text-gray-300 font-mono font-bold tracking-[0.2em] uppercase"></p>
-                        <p id="view-title" class="text-[11px] font-bold text-blue-400 uppercase tracking-wide hidden"></p>
+                        <p id="view-id" class="text-[10px] text-gray-300 font-mono font-bold tracking-widest uppercase"></p>
+                        <p id="view-title" class="text-[11px] font-bold text-blue-400 uppercase hidden"></p>
                     </div>
                 </div>
             </div>
@@ -80,12 +56,12 @@
             <div id="info-list" class="px-7 mt-8 space-y-4"></div>
 
             <div class="px-7 mt-8">
-                <a id="view-call" href="#" class="flex items-center justify-between bg-green-600 p-5 rounded-[1.5rem] text-white shadow-xl active:scale-[0.97] transition-all">
+                <a id="view-call" href="#" class="flex items-center justify-between bg-green-600 p-5 rounded-[1.5rem] text-white shadow-xl">
                     <div class="flex items-center gap-4">
                         <div class="bg-white/20 p-2.5 rounded-full"><i data-lucide="phone" class="w-5 h-5"></i></div>
                         <div>
-                            <p id="phone-label" class="text-[9px] font-bold uppercase tracking-widest opacity-80">Primary Contact</p>
-                            <p id="view-phone" class="text-lg font-black tracking-tight"></p>
+                            <p id="phone-label" class="text-[9px] font-bold uppercase tracking-widest opacity-80">Contact</p>
+                            <p id="view-phone" class="text-lg font-black"></p>
                         </div>
                     </div>
                     <i data-lucide="arrow-right-circle" class="w-6 h-6 opacity-50"></i>
@@ -95,39 +71,34 @@
     </div>
 
     <div id="pin-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[100] hidden items-center justify-center p-6">
-        <div class="bg-white rounded-[2.5rem] p-10 max-w-xs w-full shadow-2xl text-center">
-            <div class="w-16 h-16 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i data-lucide="lock" class="w-8 h-8"></i>
-            </div>
+        <div class="bg-white rounded-[2.5rem] p-10 max-w-xs w-full text-center">
             <h3 class="text-2xl font-black mb-2">Admin Lock</h3>
-            <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-8">Enter 4-Digit Security PIN</p>
-            <input type="password" id="pin-input" class="w-full text-center text-4xl font-black border-b-4 border-gray-100 focus:border-red-600 focus:outline-none mb-10 tracking-[0.5em]" maxlength="4" placeholder="••••">
+            <p class="text-gray-400 text-[10px] font-bold uppercase mb-8">Enter PIN to edit</p>
+            <input type="password" id="pin-input" class="w-full text-center text-4xl font-black border-b-4 border-gray-100 focus:border-red-600 focus:outline-none mb-10" maxlength="4" placeholder="••••">
             <div class="flex gap-4">
-                <button onclick="closeModal('pin-modal')" class="flex-1 py-4 text-gray-400 font-bold uppercase text-[11px] tracking-widest">Cancel</button>
-                <button onclick="checkPin()" id="verify-btn" class="flex-1 py-4 bg-red-600 text-white rounded-2xl font-bold uppercase text-[11px] tracking-widest shadow-lg active:scale-95">Verify</button>
+                <button onclick="closeModal('pin-modal')" class="flex-1 py-4 text-gray-400 font-bold uppercase text-[11px]">Cancel</button>
+                <button onclick="checkPin()" id="verify-btn" class="flex-1 py-4 bg-red-600 text-white rounded-2xl font-bold uppercase text-[11px]">Verify</button>
             </div>
         </div>
     </div>
 
     <div id="edit-modal" class="fixed inset-0 bg-white z-[200] hidden overflow-y-auto p-6">
         <div class="max-w-md mx-auto pb-12">
-            <div class="flex justify-between items-center mb-10 sticky top-0 bg-white/90 backdrop-blur-sm py-4 z-10 border-b">
-                <h2 class="text-2xl font-black tracking-tight">Update Information</h2>
-                <button onclick="closeModal('edit-modal')" class="p-3 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <div class="flex justify-between items-center mb-10 sticky top-0 bg-white py-4 z-10 border-b">
+                <h2 class="text-2xl font-black">Update Profile</h2>
+                <button onclick="closeModal('edit-modal')" class="p-3 bg-gray-100 rounded-full"><i data-lucide="x"></i></button>
             </div>
             <div id="edit-form-fields" class="space-y-6"></div>
             <div class="mt-10 pt-8 border-t-2 border-dashed border-gray-100">
-                <label class="text-[10px] font-black uppercase text-gray-400 block mb-3 tracking-widest">Security Access PIN</label>
-                <input id="inp-new-pin" type="password" maxlength="4" class="w-full p-5 bg-gray-50 rounded-2xl border border-gray-100 font-bold text-center text-2xl focus:ring-2 focus:ring-red-500 outline-none">
+                <label class="text-[10px] font-black text-gray-400 block mb-3 uppercase">Security PIN</label>
+                <input id="inp-new-pin" type="password" maxlength="4" class="w-full p-5 bg-gray-50 rounded-2xl border text-center text-2xl font-bold">
             </div>
-            <button onclick="saveData()" id="save-btn" class="w-full mt-10 py-6 bg-red-600 text-white rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl active:scale-95 transition-all">
-                Save Profile
-            </button>
+            <button onclick="saveData()" id="save-btn" class="w-full mt-10 py-6 bg-red-600 text-white rounded-[2rem] font-black uppercase tracking-widest shadow-2xl">Save Profile</button>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzL4ghf4CGs6LbHHfzuDrWbHBq0KiofZFJzCnXxLjOpzL5kQhX_ENkxWG93cmQowEFp/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxwJsVIcYZDmP-hZybDmRhRHP5DBy1mEpfzfDU1RT-DF4c8Iccl5ARaa2u8M_rxRksN/exec";
         const urlParams = new URLSearchParams(window.location.search);
         const PROFILE_ID = urlParams.get('id') || "WATCH-001";
         const isCard = PROFILE_ID.toUpperCase().startsWith('CARD');
@@ -138,52 +109,44 @@
                 const res = await fetch(`${SCRIPT_URL}?id=${PROFILE_ID}`);
                 const result = await res.json();
                 if (result.success) { userData = result.data; renderView(); }
-                else { document.getElementById('main-loader').innerHTML = `<div class="text-center"><i data-lucide="alert-circle" class="w-12 h-12 text-red-500 mx-auto mb-4"></i><p class="font-black uppercase text-xs tracking-widest text-red-500">ID Not Found</p></div>`; lucide.createIcons(); }
+                else { document.getElementById('main-loader').innerHTML = "ID NOT FOUND"; }
             } catch (e) { console.error(e); }
         }
 
         function renderView() {
             if (isCard) {
-                document.getElementById('top-bar').className = "bg-blue-700 text-white py-4 px-6 flex justify-between items-center sticky top-0 z-50 shadow-lg";
+                document.getElementById('top-bar').classList.replace('bg-red-600', 'bg-blue-700');
                 document.getElementById('brand-name').innerText = "Safety Card Pro";
                 document.getElementById('feature-card').classList.replace('bg-red-600', 'bg-blue-600');
                 document.getElementById('verify-btn').classList.replace('bg-red-600', 'bg-blue-600');
                 document.getElementById('save-btn').classList.replace('bg-red-600', 'bg-blue-600');
-                
-                // Card Specific: Show Logo
                 document.getElementById('logo-container').classList.remove('hidden');
                 if(userData.Logo) document.getElementById('photo-display-logo').innerHTML = `<img src="${userData.Logo}" class="w-full h-full object-cover">`;
-                
-                document.getElementById('view-title').innerText = userData.Title || "";
-                if(userData.Title) document.getElementById('view-title').classList.remove('hidden');
+                if(userData.Title) { document.getElementById('view-title').innerText = userData.Title; document.getElementById('view-title').classList.remove('hidden'); }
             } else {
-                // Watch Specific: Hide Logo
-                document.getElementById('logo-container').classList.add('hidden');
+                document.getElementById('logo-container').classList.add('hidden'); // WATCH-এ লোগো থাকবে না
             }
 
-            // Common Image Logic
             if(userData.Photo) document.getElementById('human-full-pic').style.backgroundImage = `url('${userData.Photo}')`;
-
             document.getElementById('view-name').innerText = userData.Name;
             document.getElementById('view-id').innerText = userData.ID;
 
             let listHtml = "";
             const tiles = isCard ? [
                 {icon: 'mail', label: 'Email Address', val: userData.Email},
-                {icon: 'globe', label: 'Official Website', val: userData.Website, link: true},
+                {icon: 'globe', label: 'Website', val: userData.Website, link: true},
                 {icon: 'share-2', label: 'Social Profile', val: userData.Social_Links, link: true}
             ] : [
                 {icon: 'map-pin', label: 'Home Address', val: userData.Address},
-                {icon: 'pill', label: 'Medical Instructions', val: userData.Medicine_Details}
+                {icon: 'pill', label: 'Medicine Instructions', val: userData.Medicine_Details}
             ];
-            tiles.forEach(t => { if(t.val && t.val !== "null" && t.val !== "") listHtml += `<div class="info-tile"><i data-lucide="${t.icon}" class="w-5 h-5 text-slate-400"></i><div><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">${t.label}</p>${t.link ? `<a href="${t.val}" target="_blank" class="text-sm font-bold text-blue-600 truncate block">${t.val}</a>` : `<p class="text-sm font-bold text-slate-700">${t.val}</p>`}</div></div>`; });
+            tiles.forEach(t => { if(t.val) listHtml += `<div class="info-tile"><i data-lucide="${t.icon}" class="w-5 h-5 text-slate-400"></i><div><p class="text-[9px] font-bold text-slate-400 uppercase">${t.label}</p>${t.link ? `<a href="${t.val}" target="_blank" class="text-sm font-bold text-blue-600 truncate block">${t.val}</a>` : `<p class="text-sm font-bold text-slate-700">${t.val}</p>`}</div></div>`; });
             document.getElementById('info-list').innerHTML = listHtml;
             
             document.getElementById('feature-label').innerText = isCard ? "Company" : "Blood Group";
             document.getElementById('feature-value').innerText = isCard ? (userData.Company || "Personal") : (userData.Blood_Group || "---");
             document.getElementById('view-phone').innerText = isCard ? userData.Mobile : userData.Phone1;
             document.getElementById('view-call').href = `tel:${isCard ? userData.Mobile : userData.Phone1}`;
-            document.getElementById('phone-label').innerText = isCard ? "Primary Mobile" : "Emergency Contact";
 
             document.getElementById('main-loader').classList.add('hidden');
             document.getElementById('profile-container').classList.remove('hidden');
@@ -191,14 +154,12 @@
         }
 
         function checkPin() {
-            const input = document.getElementById('pin-input').value;
-            const correctPin = userData.Admin_PIN || "1234";
-            if(input == correctPin) {
+            if(document.getElementById('pin-input').value == (userData.Admin_PIN || "1234")) {
                 setupEditForm();
                 document.getElementById('inp-new-pin').value = userData.Admin_PIN || "1234";
                 closeModal('pin-modal');
                 openModal('edit-modal');
-            } else { alert("Incorrect Security PIN!"); }
+            } else { alert("Incorrect PIN!"); }
             document.getElementById('pin-input').value = "";
         }
 
@@ -210,31 +171,29 @@
                 {id: 'mobile', label: 'Mobile Number', val: userData.Mobile},
                 {id: 'email', label: 'Email Address', val: userData.Email},
                 {id: 'website', label: 'Website Link', val: userData.Website},
-                {id: 'social', label: 'Social Media URL', val: userData.Social_Links},
-                {id: 'logo', label: 'Company Logo URL (Circle)', val: userData.Logo},
-                {id: 'photo', label: 'Profile Photo URL (Full Image)', val: userData.Photo}
+                {id: 'social', label: 'Social Link', val: userData.Social_Links},
+                {id: 'logo', label: 'Logo URL (Circle)', val: userData.Logo}, //
+                {id: 'photo', label: 'Profile Photo URL (Big)', val: userData.Photo} //
             ] : [
                 {id: 'name', label: 'Full Name', val: userData.Name},
                 {id: 'blood', label: 'Blood Group', val: userData.Blood_Group},
-                {id: 'phone1', label: 'Emergency Contact', val: userData.Phone1},
+                {id: 'phone1', label: 'Contact Number', val: userData.Phone1},
                 {id: 'address', label: 'Home Address', val: userData.Address},
                 {id: 'medicine', label: 'Medicine Details', val: userData.Medicine_Details},
-                {id: 'photo', label: 'Background Photo URL', val: userData.Photo}
+                {id: 'photo', label: 'Photo URL', val: userData.Photo}
             ];
 
             let html = "";
             fields.forEach(f => {
-                html += `<div><label class="text-[10px] font-bold text-slate-400 uppercase block mb-2 tracking-widest">${f.label}</label>
-                <input id="inp-${f.id}" value="${f.val || ''}" class="w-full p-4 bg-slate-50 rounded-2xl border border-slate-100 font-bold text-sm focus:ring-2 focus:ring-${isCard?'blue':'red'}-500 outline-none"></div>`;
+                html += `<div><label class="text-[10px] font-bold text-slate-400 uppercase block mb-2">${f.label}</label>
+                <input id="inp-${f.id}" value="${f.val || ''}" class="w-full p-4 bg-slate-50 rounded-2xl border font-bold text-sm outline-none"></div>`;
             });
             document.getElementById('edit-form-fields').innerHTML = html;
         }
 
         async function saveData() {
             const btn = document.getElementById('save-btn');
-            const originalText = btn.innerText;
             btn.innerText = "UPDATING..."; btn.disabled = true;
-
             const data = { id: PROFILE_ID, pin: document.getElementById('inp-new-pin').value };
             if(isCard) {
                 data.name = document.getElementById('inp-name').value; data.title = document.getElementById('inp-title').value; data.company = document.getElementById('inp-company').value;
@@ -244,12 +203,10 @@
                 data.name = document.getElementById('inp-name').value; data.blood = document.getElementById('inp-blood').value; data.phone1 = document.getElementById('inp-phone1').value;
                 data.address = document.getElementById('inp-address').value; data.medicine = document.getElementById('inp-medicine').value; data.photo = document.getElementById('inp-photo').value;
             }
-
             try {
-                const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
-                if(response.ok) { alert("Profile Updated Successfully!"); location.reload(); }
-                else { throw new Error(); }
-            } catch (e) { alert("Failed to save. Check your connection."); btn.innerText = originalText; btn.disabled = false; }
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
+                alert("Success!"); location.reload();
+            } catch (e) { alert("Failed!"); btn.innerText = "Save Profile"; btn.disabled = false; }
         }
 
         function openModal(id) { document.getElementById(id).style.display = (id === 'edit-modal' ? 'block' : 'flex'); }
